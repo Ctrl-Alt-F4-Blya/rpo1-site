@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Currency Pulse — конвертер валют и криптовалют</title>
+  <meta name="description" content="Красивый сайт для отслеживания валют, криптовалют, конвертации, графиков, сервисов и новостей." />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div class="bg-glow glow-a"></div>
+  <div class="bg-glow glow-b"></div>
+
+  <header class="shell topbar">
+    <a class="brand" href="#top" aria-label="Currency Pulse">
+      <span class="brand-icon">₽</span>
+      <span>
+        <b>Currency Pulse</b>
+        <small>валюты, крипта, новости</small>
+      </span>
+    </a>
+    <nav class="nav">
+      <a href="#converter">Конвертер</a>
+      <a href="#chart">График</a>
+      <a href="#services">Сервисы</a>
+      <a href="#news">Новости</a>
+    </nav>
+  </header>
+
+  <main id="top" class="shell">
+    <section class="hero">
+      <div class="hero-copy">
+        <div class="eyebrow"><span></span> онлайн-агрегатор курса</div>
+        <h1>Курс валют и криптовалют в одном красивом интерфейсе</h1>
+        <p>
+          Сайт собирает данные из ЦБ РФ, Frankfurter, CoinGecko и новостного RSS,
+          показывает конвертацию, динамику и полезные ссылки для обмена.
+        </p>
+        <div class="hero-actions">
+          <a href="#converter" class="btn primary">Открыть конвертер</a>
+          <a href="#chart" class="btn ghost">Посмотреть график</a>
+        </div>
+      </div>
+
+      <aside class="card rates-card" aria-live="polite">
+        <div class="card-title-row">
+          <h2>Курс валют <span id="rates-date">загрузка...</span></h2>
+          <button id="refresh" class="round" title="Обновить">↻</button>
+        </div>
+        <div id="rate-list" class="rate-list skeleton-area">
+          <div class="skel wide"></div>
+          <div class="skel mid"></div>
+          <div class="skel wide"></div>
+          <p>Подключение к источникам...</p>
+        </div>
+      </aside>
+    </section>
+
+    <section class="grid-main">
+      <section id="converter" class="card converter-card">
+        <div class="section-label blue"><span></span> конвертер</div>
+        <h2 id="pair-title">1 USD в RUB</h2>
+        <p class="muted">Курс и обратное значение обновляются автоматически.</p>
+
+        <div class="big-convert">
+          <div>
+            <strong id="from-amount-view">1</strong>
+            <span id="from-code-view">USD</span>
+          </div>
+          <button class="swap-big" id="swap-top" aria-label="Поменять валюты">⇄</button>
+          <div>
+            <strong id="to-result-view">—</strong>
+            <span id="to-code-view">RUB</span>
+          </div>
+        </div>
+
+        <p class="rates-line">
+          <span id="forward-rate">1 USD = — RUB</span>
+          <span id="reverse-rate">1 RUB = — USD</span>
+        </p>
+
+        <label class="field-label" for="amount">Сумма</label>
+        <div class="input-wrap">
+          <input id="amount" type="number" value="1" min="0" step="0.01" />
+          <button id="clear-amount" title="Очистить">×</button>
+        </div>
+
+        <div class="select-row">
+          <label class="select-box">
+            <span>Отдаю</span>
+            <select id="from"></select>
+          </label>
+          <button class="swap-small" id="swap" aria-label="Поменять">⇄</button>
+          <label class="select-box active">
+            <span>Получаю</span>
+            <select id="to"></select>
+          </label>
+        </div>
+
+        <button id="convert" class="btn primary full">Конвертировать</button>
+        <div id="fees" class="fees"></div>
+      </section>
+
+      <section id="chart" class="card chart-card">
+        <div class="chart-top">
+          <div>
+            <div class="section-label violet"><span></span> диаграмма роста</div>
+            <h2 id="chart-title">USD / RUB</h2>
+            <p id="chart-subtitle" class="muted">Динамика за 14 дней</p>
+          </div>
+          <select id="days" class="days-select">
+            <option value="7">7 дней</option>
+            <option value="14" selected>14 дней</option>
+            <option value="30">30 дней</option>
+            <option value="90">90 дней</option>
+          </select>
+        </div>
+        <div class="canvas-wrap">
+          <canvas id="chartCanvas" width="900" height="360"></canvas>
+        </div>
+        <div class="stats">
+          <div><span>Изменение</span><b id="stat-change">—</b></div>
+          <div><span>Минимум</span><b id="stat-min">—</b></div>
+          <div><span>Максимум</span><b id="stat-max">—</b></div>
+        </div>
+        <p id="chart-note" class="chart-note"></p>
+      </section>
+    </section>
+
+    <section class="card sources-card">
+      <div class="section-label green"><span></span> источники</div>
+      <div id="sources" class="source-grid"></div>
+    </section>
+
+    <section id="services" class="section-block">
+      <div class="section-head">
+        <div>
+          <div class="section-label blue"><span></span> полезные ссылки</div>
+          <h2>Сервисы для обмена и переводов</h2>
+          <p class="muted">Ниже — карточки популярных сервисов. Комиссия указана примерно.</p>
+        </div>
+      </div>
+      <div id="service-list" class="cards-grid"></div>
+    </section>
+
+    <section id="news" class="section-block">
+      <div class="section-head">
+        <div>
+          <div class="section-label red"><span></span> новости</div>
+          <h2>Новости валют и криптовалют</h2>
+          <p class="muted">Заголовки подтягиваются из RSS. Если интернет недоступен, включается резервный список.</p>
+        </div>
+      </div>
+      <div id="news-list" class="news-grid"></div>
+    </section>
+  </main>
+
+  <footer class="shell footer">
+    <p>Currency Pulse · учебный проект · данные могут отличаться от реальных условий обмена</p>
+  </footer>
+
+  <script src="/app.js"></script>
+</body>
+</html>

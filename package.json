@@ -1,0 +1,12 @@
+{
+  "name": "currency-pulse",
+  "version": "2.0.0",
+  "description": "Адаптивный сайт-конвертер валют и криптовалют без внешних npm-зависимостей",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": ["currency", "converter", "rates", "crypto", "ruble"],
+  "author": "Currency Pulse",
+  "license": "MIT"
+}
